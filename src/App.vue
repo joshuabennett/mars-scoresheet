@@ -1,60 +1,64 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
+  <div id='app'>    
+    <div class='columns'>
+      <div class="column is-one-fifth">
+        <!-- spacing column -->
+      </div>
+      <div class="column">
+        <app-header></app-header>
+        <transition name='pop' appear>
+          <app-scoresheet v-if='!submitted'></app-scoresheet>
+        </transition>
+        <transition name='pop'>
+          <app-results v-if='submitted'></app-results>
+        </transition>
+      </div>
+      <div class="column is-one-fifth">
+        <!-- spacing column -->
+      </div>
+    </div>
   </div>
 </template>
 
+
 <script>
+import Header from './components/Header.vue';
+import Scoresheet from './components/Scoresheet.vue';
+import Results from './components/Results.vue';
+
 export default {
-  name: 'app',
-  data () {
+  data: function() {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      submitted: false
     }
+  },
+  components: {
+    'app-header': Header,
+    'app-scoresheet': Scoresheet,
+    'app-results': Results
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 
-h1, h2 {
-  font-weight: normal;
-}
+  .pop-enter {
+    opacity: 0;
+  }
 
-ul {
-  list-style-type: none;
-  padding: 0;
-}
+  .pop-enter-active {
+    transition: opacity 1s;
+    opacity: 1;
+  }
 
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
+  .pop-leave-active {
+    transition: opacity 1s;
+    opacity: 0;
 
-a {
-  color: #42b983;
-}
+  }
+  .pop-leave {
+
+  }
+
+
 </style>
