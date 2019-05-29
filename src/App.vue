@@ -7,8 +7,11 @@
       <div class="column">
         <app-header></app-header>
         <transition name='pop' appear>
-          <app-scoresheet v-if='!submitted'></app-scoresheet>
+          <app-scoresheet v-if='!submitted' @results='submitted = !submitted'></app-scoresheet>
         </transition>
+        <section class="section results">
+          <button class="button is-fullwidth is-primary" @click.prevent='getResults'>Results</button>
+        </section>
         <transition name='pop'>
           <app-results v-if='submitted'></app-results>
         </transition>
@@ -36,12 +39,19 @@ export default {
     'app-header': Header,
     'app-scoresheet': Scoresheet,
     'app-results': Results
+  },
+  methods: {
+    getResults() {
+        this.submitted = !this.submitted;
+    }
   }
 }
 </script>
 
 <style>
-
+  .section {
+    padding: 10px;
+  }
   .pop-enter {
     opacity: 0;
   }
