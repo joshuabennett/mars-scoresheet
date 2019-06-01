@@ -28,6 +28,7 @@
 
 <script>
 import Player from './Player.vue';
+import { eventBus } from '../main.js';
 
 export default {
     data: function() {
@@ -40,7 +41,8 @@ export default {
                     milestones: 0,
                     cities: 0,
                     greenery: 0,
-                    cards: 0
+                    cards: 0,
+                    finalScore: 0
                 }
             ]
         }
@@ -55,12 +57,19 @@ export default {
                     milestones: 0,
                     cities: 0,
                     greenery: 0,
-                    cards: 0
+                    cards: 0,
+                    finalScore: 0
                     });
         }
     },
     components: {
         'app-player': Player
+    },
+    created() {
+        eventBus.$on('resultsSubmit', (data) => {
+            console.log('chain');
+            eventBus.$emit('resultsSubmit2', this.players);
+        });
     }
 }
 </script>

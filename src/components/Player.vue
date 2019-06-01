@@ -1,7 +1,7 @@
 <template>
     <div class="columns">
         <div class="column player-column">
-            <input class='input' type="text" :placeholder="'Player ' + index">
+            <input class='input' type="text" :placeholder="'Player ' + index" v-model='value.name'>
         </div>
         <div class="column">
             <input name='rating' class='input' type="text" placeholder='0' v-model='value.rating'>
