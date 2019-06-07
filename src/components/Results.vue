@@ -13,17 +13,16 @@
                 <div class="column final"><i class="fas fa-id-card-alt"></i>  Cards</div>
             </div>
             <div class="columns" v-for='(player, index) in players'>
-                <div class="column"> {{ index + 1 }} </div>
-                <div class="column"> {{ player.name }} </div>
-                <div class="column"> {{ player.finalScore }} </div>
-                <div class="column final rating" :class='player.name'> {{ player.rating }} </div>
-                <div class="column final awards" :class='player.name'> {{ player.awards }} </div>
-                <div class="column final milestones" :class='player.name'> {{ player.milestones }} </div>
-                <div class="column final cities" :class='player.name'> {{ player.cities }} </div>
-                <div class="column final greenery" :class='player.name'> {{ player.greenery }} </div>
-                <div class="column final cards" :class='player.name'> {{ player.cards }} </div>
+                <div class="column" :class='player.name'> {{ index + 1 }} </div>
+                <div class="column" :class='player.name'> {{ player.name }} </div>
+                <div class="column" :class='player.name'> {{ player.finalScore }} </div>
+                <div class="column final rating" :class='player.name'> <span class='tag is-rounded is-small'>{{ player.rating }} </span></div>
+                <div class="column final awards" :class='player.name'> <span class='tag is-rounded is-small'>{{ player.awards }} </span></div>
+                <div class="column final milestones" :class='player.name'> <span class='tag is-rounded is-small'>{{ player.milestones }} </span></div>
+                <div class="column final cities" :class='player.name'> <span class='tag is-rounded is-small'>{{ player.cities }}</span> </div>
+                <div class="column final greenery" :class='player.name'> <span class='tag is-rounded is-small'>{{ player.greenery }} </span></div>
+                <div class="column final cards" :class='player.name'> <span class='tag is-rounded is-small'>{{ player.cards }} </span></div>
             </div>
-            <button class="button is-primary" @click="printPlayers">Print</button>
         </div>
     </section>
 </template>
@@ -38,9 +37,6 @@ export default {
         }
     },
     methods: {
-        printPlayers() {
-            console.log(this.pla)
-        }
     },
     created() {
         eventBus.$on('resultsSubmit2', (data) => {
@@ -57,6 +53,7 @@ export default {
                 let curr = this.players[i];
                 console.log(curr.name);
 
+                // Loop through the player object and add it's value to highest data table.
                 for (var property in curr) {
                     if (curr.hasOwnProperty(property)) {
                         console.log(property);
@@ -65,7 +62,6 @@ export default {
                         }
                     }
                 }
-                // Loop through the player object and add it's value to highest data table.
 
                 // Calculte final score for each player and add it to player object.
                 this.players[i].finalScore = Number(curr.rating) + Number(curr.awards) + Number(curr.milestones) + Number(curr.cities) + Number(curr.greenery) + Number(curr.cards);
@@ -76,15 +72,7 @@ export default {
                 return (Number(b.finalScore) - Number(a.finalScore));
             });
             
-            console.log(highestData);
-            // Sort individual categories by value.
-            // const categories = Object.keys(highestData);
-            // for (const cat in categories) {
-            //     highestData[cat].sort( function(a,b) {
-            //         return b[1] - a[1];
-            //     });
-            // }
-
+            // Sort individual categories by score
             for (var property2 in highestData) {
                     if (highestData.hasOwnProperty(property2)) { 
                         highestData[property2].sort( function(a,b) {
@@ -92,35 +80,56 @@ export default {
                         });
                     }
             }
+
+            var playersLength = this.players.length;
+            var sortedPlayers = this.players;
+
+            var setBorders = function(color, position) {
+                setTimeout( function() {
+                    if (playersLength < position) {
+                        return false;
+                    }
+                    var row = document.getElementsByClassName(sortedPlayers[position-1].name);
+                    for (let i = 0; i < row.length; i++) {
+                        row[i].style.borderTop = 'solid 2px ' + color;
+                        row[i].style.borderBottom = 'solid 2px ' + color;
+                    }
+                    row[0].style.borderLeft = 'solid 2px ' + color;
+                    row[row.length-1].style.borderRight = 'solid 2px ' + color;
+                }, 500);
+            };
+
             
-            // Add styling for the top 3 in each category. Gold 1st, Silver 2nd, Bronze 3rd.
-            let name, catToStyle;
-            for (var property4 in highestData) {
-                if (highestData.hasOwnProperty(property4)) {
-                    let name = highestData[property4][1][0];
-                    let catToStyle = property4;
-                    console.log('.'+name+'.'+catToStyle);
-                    setTimeout( function() {
-                       var el = document.getElementsByClassName(catToStyle+' '+name);
-                        console.log((el)[0]);
-                        el[0].style.backgroundColor = '#C0C0C0'; 
-                    }, 500);
-                    
+            setBorders('#FFD700',1);
+            setBorders('#C0C0C0',2);
+            setBorders('#cd7f32',3);
+
+
+            // Takes the position (1st, 2nd, 3rd, etc) and sets the background color for those elements to specified color.
+            var setCategoryColor = function(color, position) {
+                let name, catToStyle;
+                if (playersLength < position) {
+                    return false;
                 }
-            }
-            for (var property3 in highestData) {
-                if (highestData.hasOwnProperty(property3)) {
-                    let name = highestData[property3][0][0];
-                    let catToStyle = property3;
-                    console.log('.'+name+'.'+catToStyle);
-                    setTimeout( function() {
-                       var el = document.getElementsByClassName(catToStyle+' '+name);
-                        console.log((el)[0]);
-                        el[0].style.backgroundColor = '#FFD700'; 
-                    }, 500);
-                    
+                for (var property4 in highestData) {
+                    if (highestData.hasOwnProperty(property4)) {
+                        let name = highestData[property4][position-1][0];
+                        let catToStyle = property4;
+                        console.log('.'+name+'.'+catToStyle);
+                        setTimeout( function() {
+                        var el = document.getElementsByClassName(catToStyle+' '+name);
+                            el[0].firstElementChild.style.backgroundColor = color; 
+                            if (position === 3) {
+                                el[0].firstElementChild.style.color = 'white'; 
+                            }
+                        }, 500);
+                        
+                    }
                 }
-            }
+            };
+            setCategoryColor('#cd7f32', 3);
+            setCategoryColor('#C0C0C0', 2);
+            setCategoryColor('#FFD700', 1);
 
         });
     }
@@ -131,5 +140,8 @@ export default {
 <style>
     .final {
         font-size: 11px;
+    }
+    .column {
+        margin-top: 5px;
     }
 </style>
