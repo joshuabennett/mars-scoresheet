@@ -6,14 +6,37 @@
       </div>
       <div class="column">
         <app-header></app-header>
-        <transition name='pop' appear>
-          <app-scoresheet v-if='!submitted' @results='submitted = !submitted'></app-scoresheet>
-        </transition>
-        <transition name='pop'>
-          <app-results v-show='submitted'></app-results>
-        </transition>
+        <transition-group name='pop' appear mode='out-in'>
+          <app-scoresheet v-if='!submitted' @results='submitted = !submitted' key='scoresheet'></app-scoresheet>
+          <app-results v-show='submitted' key='resultsheet'></app-results>
+        </transition-group>
         <section class="section results">
-          <button class="button is-fullwidth is-primary" @click.prevent='getResults'>Results</button>
+          <button class="button is-fullwidth is-primary" @click.prevent='getResults'> {{ buttonName }}</button>
+        </section>
+        <hr>
+        <section class='section footer'>
+                      <a class="button" href='https://github.com/joshuabennett/mars-scoresheet'>
+              <span class="icon is-small">
+                <i class="fab fa-github"></i>
+              </span>
+              <span> Github </span>
+            </a>
+            <br><br>
+          <div class="field is-grouped is-grouped-multiline">
+            <div class="control">
+              <div class="tags has-addons">
+                <span class="tag is-dark">Vue</span>
+                <span class="tag is-info">2.6.10</span>
+              </div>
+            </div>
+
+            <div class="control">
+              <div class="tags has-addons">
+                <span class="tag is-dark">Bulma</span>
+                <span class="tag is-success">0.7.5</span>
+              </div>
+            </div>
+          </div>
         </section>
       </div>
       <div class="column is-one-fifth">
@@ -33,7 +56,8 @@ import { eventBus } from './main.js';
 export default {
   data: function() {
     return {
-      submitted: false
+      submitted: false,
+      buttonName: 'Results'
     }
   },
   components: {
@@ -44,6 +68,7 @@ export default {
   methods: {
     getResults() {
         this.submitted = !this.submitted;
+        (this.buttonName === 'Results') ? this.buttonName = 'New Game' : this.buttonName = 'Results';
         eventBus.$emit('resultsSubmit', this.submitted);
     }
   }
@@ -69,6 +94,11 @@ export default {
   .pop-leave-active {
     transition: opacity 1s;
     opacity: 0;
+    position: absolute;
 
+  }
+
+  .pop-move {
+    transition: transform 1s;
   }
 </style>
