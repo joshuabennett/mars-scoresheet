@@ -47,6 +47,7 @@ export default {
             ]
         }
     },
+    inject: ['$validator'],
     methods: {
         addPlayer() {
             this.players.push(
@@ -67,13 +68,20 @@ export default {
     },
     created() {
         eventBus.$on('resultsSubmit', (data) => {
-            console.log('chain');
             eventBus.$emit('resultsSubmit2', this.players);
         });
+    },
+    provide() {
+      return {
+        $validator: this.$validator,
+      }
     }
 }
 </script>
 
 <style>
-
+.box {
+    background: rgb(202, 107, 78);
+    color: white;
+}
 </style>

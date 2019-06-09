@@ -1,6 +1,6 @@
 <template>
   <div id='app'>    
-    <div class='columns'>
+    <div class='columns main'>
       <div class="column is-one-fifth">
         <!-- spacing column -->
       </div>
@@ -11,18 +11,23 @@
           <app-results v-show='submitted' key='resultsheet'></app-results>
         </transition-group>
         <section class="section results">
-          <button class="button is-fullwidth is-primary" @click.prevent='getResults'> {{ buttonName }}</button>
+          <button class="button is-fullwidth resultbtn" @click.prevent='getResults'> {{ buttonName }}</button>
+          <br>
+          <div class="notification is-dark has-text-danger" v-if='!isDeleted'>
+            <button class="delete" @click='isDeleted = !isDeleted'></button>
+            Please correct any errors!
+          </div>
         </section>
-        <hr>
-        <section class='section footer'>
-                      <a class="button" href='https://github.com/joshuabennett/mars-scoresheet'>
+       
+        <section class='section footer has-text-centered'>
+                      <a class="button is-dark" href='https://github.com/joshuabennett/mars-scoresheet'>
               <span class="icon is-small">
                 <i class="fab fa-github"></i>
               </span>
               <span> Github </span>
             </a>
             <br><br>
-          <div class="field is-grouped is-grouped-multiline">
+          <!-- <div class="field is-grouped is-grouped-multiline">
             <div class="control">
               <div class="tags has-addons">
                 <span class="tag is-dark">Vue</span>
@@ -36,7 +41,7 @@
                 <span class="tag is-success">0.7.5</span>
               </div>
             </div>
-          </div>
+          </div> -->
         </section>
       </div>
       <div class="column is-one-fifth">
@@ -57,7 +62,8 @@ export default {
   data: function() {
     return {
       submitted: false,
-      buttonName: 'Results'
+      buttonName: 'Results',
+      isDeleted: true
     }
   },
   components: {
@@ -65,18 +71,42 @@ export default {
     'app-scoresheet': Scoresheet,
     'app-results': Results
   },
+   provide() {
+      return {
+        $validator: this.$validator,
+      }
+    },
   methods: {
     getResults() {
-        this.submitted = !this.submitted;
-        (this.buttonName === 'Results') ? this.buttonName = 'New Game' : this.buttonName = 'Results';
-        eventBus.$emit('resultsSubmit', this.submitted);
+      this.$validator.validateAll().then((result) => {
+        if (result) {
+          this.submitted = !this.submitted;
+          (this.buttonName === 'Results') ? this.buttonName = 'New Game' : this.buttonName = 'Results';
+          eventBus.$emit('resultsSubmit', this.submitted);
+          return;
+        }
+        this.isDeleted = false;
+      });
     }
   }
 }
 </script>
 
 <style>
-  #app {
+  html {
+    background: #ff4e50; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #ff4e50, #f9d423); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #ff4e50, #f9d423); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  }
+  .resultbtn {
+    background: rgb(202, 107, 78);
+    color: white;
+    border: none;
+  }
+  .section {
+    background: transparent;
+  }
+  .main {
     margin-top: 5%;
   }
   .section {
