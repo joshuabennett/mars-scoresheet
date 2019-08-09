@@ -102,7 +102,7 @@ export default {
             
             setBorders('#FFD700',1);
             setBorders('#C0C0C0',2);
-            setBorders('#cd7f32',3);
+            setBorders('#dca671',3);
 
 
             // Takes the position (1st, 2nd, 3rd, etc) and sets the background color for those elements to specified color.
@@ -119,15 +119,15 @@ export default {
                         setTimeout( function() {
                         var el = document.getElementsByClassName(catToStyle+' '+name);
                             el[0].firstElementChild.style.backgroundColor = color; 
-                            if (position === 3) {
-                                el[0].firstElementChild.style.color = 'white'; 
-                            }
+                            // if (position === 3) {
+                            //     el[0].firstElementChild.style.color = 'white'; 
+                            // }
                         }, 500);
                         
                     }
                 }
             };
-            setCategoryColor('#cd7f32', 3);
+            setCategoryColor('#dca671', 3);
             setCategoryColor('#C0C0C0', 2);
             setCategoryColor('#FFD700', 1);
 

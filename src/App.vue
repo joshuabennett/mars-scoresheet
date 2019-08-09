@@ -7,9 +7,10 @@
       <div class="column">
         <app-header></app-header>
         <transition-group name='pop' appear mode='out-in'>
-          <app-scoresheet v-if='!submitted' @results='submitted = !submitted' key='scoresheet'></app-scoresheet>
+          <app-scoresheet v-if='!submitted && !mobile' @results='submitted = !submitted' key='scoresheet'></app-scoresheet>
           <app-results v-show='submitted' key='resultsheet'></app-results>
         </transition-group>
+        <app-mobile-scoresheet v-if='!submitted && mobile' @results='submitted = !submitted'></app-mobile-scoresheet>
         <section class="section results">
           <button class="button is-fullwidth resultbtn" @click.prevent='getResults'> {{ buttonName }}</button>
           <br>
@@ -56,6 +57,7 @@
 import Header from './components/Header.vue';
 import Scoresheet from './components/Scoresheet.vue';
 import Results from './components/Results.vue';
+import MobileScoresheet from './components/MobileScoresheet';
 import { eventBus } from './main.js';
 
 export default {
@@ -63,13 +65,15 @@ export default {
     return {
       submitted: false,
       buttonName: 'Results',
-      isDeleted: true
+      isDeleted: true,
+      mobile: window.innerWidth <= 700 
     }
   },
   components: {
     'app-header': Header,
     'app-scoresheet': Scoresheet,
-    'app-results': Results
+    'app-results': Results,
+    'app-mobile-scoresheet': MobileScoresheet
   },
    provide() {
       return {
@@ -86,6 +90,11 @@ export default {
           return;
         }
         this.isDeleted = false;
+      });
+    },
+    created() {
+      addEventListener('resize', () => {
+        this.mobile = innerWidth <= 700
       });
     }
   }
