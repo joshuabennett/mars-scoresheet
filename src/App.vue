@@ -8,7 +8,7 @@
         <app-header></app-header>
         <transition-group name='pop' appear mode='out-in'>
           <app-scoresheet v-if='!submitted && !mobile' @results='submitted = !submitted' key='scoresheet'></app-scoresheet>
-          <app-results v-show='submitted' key='resultsheet'></app-results>
+          <app-results v-show='submitted' key='resultsheet' :mobile='mobile'></app-results>
         </transition-group>
         <app-mobile-scoresheet v-if='!submitted && mobile' @results='submitted = !submitted'></app-mobile-scoresheet>
         <section class="section results">

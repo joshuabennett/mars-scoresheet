@@ -45,9 +45,9 @@ export default {
     data: function () {
         return {
             players: [],
-            mobile: window.innerWidth <= 700 
         }
     },
+    props: ['mobile'],
     methods: {
     },
     created() {
