@@ -117,6 +117,7 @@ export default {
         background: rgb(202, 107, 78);
         color: white;
         padding: 0px;
+        margin: 10px;
     }
     .players-info {
         padding: 15px;

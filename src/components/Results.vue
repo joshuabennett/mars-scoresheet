@@ -1,7 +1,7 @@
 <template>
     <section class="section">
         <div class="box">
-            <div class="columns">
+            <div class="columns" v-if='!mobile'>
                 <div class="column"> Rank</div>
                 <div class="column"> Name</div>
                 <div class="column"> Final Score</div>
@@ -12,7 +12,18 @@
                 <div class="column final"><i class="fas fa-leaf"></i>  Greenery</div>
                 <div class="column final"><i class="fas fa-id-card-alt"></i>  Cards</div>
             </div>
-            <div class="columns" v-for='(player, index) in players'>
+            <div class="columns is-flex-mobile" v-if='mobile'>
+                <div class="column"></div>
+                <div class="column"></div>
+                <div class="column">Score</div>
+                <div class="column final"><i class="fas fa-globe-americas"></i></div>
+                <div class="column final"><i class="fas fa-award"></i></div>
+                <div class="column final"><i class="fas fa-trophy"></i></div>
+                <div class="column final"><i class="fas fa-city"></i></div>
+                <div class="column final"><i class="fas fa-leaf"></i></div>
+                <div class="column final"><i class="fas fa-id-card-alt"></i></div>
+            </div>
+            <div class="columns is-flex-mobile" v-for='(player, index) in players'>
                 <div class="column" :class='player.name'> {{ index + 1 }} </div>
                 <div class="column" :class='player.name'> {{ player.name }} </div>
                 <div class="column" :class='player.name'> {{ player.finalScore }} </div>
@@ -33,7 +44,8 @@ import { eventBus } from '../main.js';
 export default {
     data: function () {
         return {
-            players: []
+            players: [],
+            mobile: window.innerWidth <= 700 
         }
     },
     methods: {
@@ -138,6 +150,10 @@ export default {
 </script>
 
 <style>
+    .box {
+    background: rgb(202, 107, 78);
+    color: white;
+}
     .final {
         font-size: 11px;
     }

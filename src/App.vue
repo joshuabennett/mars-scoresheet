@@ -1,6 +1,6 @@
 <template>
   <div id='app'>    
-    <div class='columns main'>
+    <div class='columns' :class="{'main' : !mobile }">
       <div class="column is-one-fifth">
         <!-- spacing column -->
       </div>
