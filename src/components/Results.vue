@@ -1,5 +1,5 @@
 <template>
-    <section class="section">
+    <section class="section"> 
         <div class="box">
             <div class="columns" v-if='!mobile'>
                 <div class="column"> Rank</div>
@@ -151,13 +151,25 @@ export default {
 
 <style>
     .box {
-    background: rgb(202, 107, 78);
-    color: white;
-}
+        background: rgb(202, 107, 78);
+        color: white;
+    }
     .final {
         font-size: 11px;
     }
     .column {
         margin-top: 5px;
     }
+
+@media all and (max-width: 600px) {
+    .column {
+        font-size: 8px;
+        padding: 6px;
+    }
+    .tag:not(body) {
+        font-size: 8px;
+        height: 1.5em;
+    }
+}
+    
 </style>

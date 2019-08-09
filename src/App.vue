@@ -5,7 +5,7 @@
         <!-- spacing column -->
       </div>
       <div class="column">
-        <app-header></app-header>
+        <app-header v-if='!mobile'></app-header>
         <transition-group name='pop' appear mode='out-in'>
           <app-scoresheet v-if='!submitted && !mobile' @results='submitted = !submitted' key='scoresheet'></app-scoresheet>
           <app-results v-show='submitted' key='resultsheet' :mobile='mobile'></app-results>
