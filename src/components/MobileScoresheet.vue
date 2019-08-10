@@ -81,10 +81,13 @@ export default {
                 }
 
             ],
+            // Stores current Tab, defaulting to players page.
             activeItem: 'name'
         }
     },
     computed: {
+
+        // Dynamic Placeholder names.
         getPlaceholder() {
             return this.activeItem == 'name' ? 'Name' : 'Score';
         }
@@ -105,6 +108,9 @@ export default {
         }
     },
     created() {
+
+        // Catch that event has been submitted so that we can pass the players array to the results component through
+        // another event.
         eventBus.$on('resultsSubmit', (data) => {
             eventBus.$emit('resultsSubmit2', this.players);
         });

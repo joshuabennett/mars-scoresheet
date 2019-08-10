@@ -52,6 +52,8 @@ export default {
     },
     created() {
         eventBus.$on('resultsSubmit2', (data) => {
+
+            // Create a new array that stores all the highest scores in each category and the corresponding player.
             this.players = data;
             var highestData = {
                 rating: [],
@@ -61,11 +63,9 @@ export default {
                 greenery: [],
                 cards: [],
             };
+            // Loop through each player's scores and add each of their scores to a table containing their score and name in each category.
             for (let i = 0; i < this.players.length; i++) {
                 let curr = this.players[i];
-                console.log(curr.name);
-
-                // Loop through the player object and add it's value to highest data table.
                 for (var property in curr) {
                     if (curr.hasOwnProperty(property)) {
                         console.log(property);
@@ -96,6 +96,7 @@ export default {
             var playersLength = this.players.length;
             var sortedPlayers = this.players;
 
+            // Function to set the border of an entire row at (position) to (color).
             var setBorders = function(color, position) {
                 setTimeout( function() {
                     if (playersLength < position) {
@@ -111,13 +112,13 @@ export default {
                 }, 500);
             };
 
-            
+            // Set 1st to Gold, 2nd to Silver, and 3rd to Bronze.
             setBorders('#FFD700',1);
             setBorders('#C0C0C0',2);
             setBorders('#dca671',3);
 
 
-            // Takes the position (1st, 2nd, 3rd, etc) and sets the background color for those elements to specified color.
+            // Takes the position (1st, 2nd, 3rd, etc) and sets the tag background color for those elements to specified color for each scoring category.
             var setCategoryColor = function(color, position) {
                 let name, catToStyle;
                 if (playersLength < position) {
@@ -139,6 +140,8 @@ export default {
                     }
                 }
             };
+
+            // Set 1st to Gold, 2nd to Silver, 3rd to Bronze.
             setCategoryColor('#dca671', 3);
             setCategoryColor('#C0C0C0', 2);
             setCategoryColor('#FFD700', 1);

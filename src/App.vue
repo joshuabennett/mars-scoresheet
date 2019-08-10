@@ -28,21 +28,6 @@
               <span> Github </span>
             </a>
             <br><br>
-          <!-- <div class="field is-grouped is-grouped-multiline">
-            <div class="control">
-              <div class="tags has-addons">
-                <span class="tag is-dark">Vue</span>
-                <span class="tag is-info">2.6.10</span>
-              </div>
-            </div>
-
-            <div class="control">
-              <div class="tags has-addons">
-                <span class="tag is-dark">Bulma</span>
-                <span class="tag is-success">0.7.5</span>
-              </div>
-            </div>
-          </div> -->
         </section>
       </div>
       <div class="column is-one-fifth">
@@ -81,6 +66,8 @@ export default {
       }
     },
   methods: {
+
+    // Change Results button and emit event letting results know that they've been submitted.
     getResults() {
       this.$validator.validateAll().then((result) => {
         if (result) {
