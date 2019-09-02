@@ -4,8 +4,8 @@
       <div class="column is-one-fifth">
         <!-- spacing column -->
       </div>
-      <div class="column">
-        <app-header v-if='!mobile'></app-header>
+      <div class="column main-section">
+        <app-header></app-header>
         <transition-group name='pop' appear mode='out-in'>
           <app-scoresheet v-if='!submitted && !mobile' @results='submitted = !submitted' key='scoresheet'></app-scoresheet>
           <app-results v-show='submitted' key='resultsheet' :mobile='mobile'></app-results>
@@ -127,4 +127,9 @@ export default {
   .pop-move {
     transition: transform 1s;
   }
+      /* @media only screen and (max-width: 768px) {
+        .main-section {
+            margin: 2vw;
+        }
+     } */
 </style>

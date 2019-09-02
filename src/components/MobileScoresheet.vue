@@ -46,7 +46,7 @@
                     <div class="column"> {{ activeItem.charAt(0).toUpperCase() + activeItem.slice(1) }} Score</div>
                 </div>
                 <div class="columns is-flex-mobile" v-for='player in players'>
-                    <div class="column" v-if="activeItem != 'name'"> {{ player.name }}</div>
+                    <div class="column player-name" v-if="activeItem != 'name'"> {{ player.name }}</div>
                     <div class="column"> <input class='input' type="text" :placeholder='getPlaceholder' v-model='player[activeItem]'> </div>
                 </div>
                 <p class="buttons" v-if="activeItem == 'name'">
@@ -142,6 +142,11 @@ export default {
         z-index: 1;
     }   
     .tabs.is-toggle a {
-        border-color: black;
+        border-color: rgba(0, 0, 0, 0.555);
+    }
+    .player-name {
+        font-size: 18px;
+        display: flex;
+        align-items: center;
     }
 </style>

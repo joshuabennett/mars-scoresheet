@@ -1,4 +1,6 @@
+
 <template>
+    <!-- // TODO: Make a Mobile Results page that splits final rankings seperate from category rankings to allow for bigger presentation. -->
     <section class="section"> 
         <div class="box">
             <div class="columns" v-if='!mobile'>
